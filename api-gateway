@@ -1,0 +1,41 @@
+spring.application.name=api-gateway
+server.port=8080
+
+# Security auto-configuration exclusion
+spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration,org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration,org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration
+
+# Eureka
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
+eureka.client.register-with-eureka=true
+eureka.client.fetch-registry=true
+eureka.instance.hostname=localhost
+eureka.instance.prefer-ip-address=false
+
+# Routes
+spring.cloud.gateway.routes[0].id=profile-service
+spring.cloud.gateway.routes[0].uri=lb://PROFILE-SERVICE
+spring.cloud.gateway.routes[0].predicates[0]=Path=/api/v1/profiles/**,/api/v1/profiles
+
+spring.cloud.gateway.routes[1].id=product-service
+spring.cloud.gateway.routes[1].uri=lb://PRODUCT-SERVICE
+spring.cloud.gateway.routes[1].predicates[0]=Path=/api/v1/products/**,/api/v1/products
+
+spring.cloud.gateway.routes[2].id=cart-service
+spring.cloud.gateway.routes[2].uri=lb://CART-SERVICE
+spring.cloud.gateway.routes[2].predicates[0]=Path=/api/v1/carts/**,/api/v1/carts
+
+spring.cloud.gateway.routes[3].id=order-service
+spring.cloud.gateway.routes[3].uri=lb://ORDER-SERVICE
+spring.cloud.gateway.routes[3].predicates[0]=Path=/api/v1/orders/**,/api/v1/orders
+
+spring.cloud.gateway.routes[4].id=wallet-service
+spring.cloud.gateway.routes[4].uri=lb://WALLET-SERVICE
+spring.cloud.gateway.routes[4].predicates[0]=Path=/api/v1/wallets/**,/api/v1/wallets
+
+# CORS Configuration
+spring.cloud.gateway.globalcors.cors-configurations.[/**].allowed-origin-patterns=*
+spring.cloud.gateway.globalcors.cors-configurations.[/**].allowed-methods=GET,POST,PUT,DELETE,OPTIONS
+spring.cloud.gateway.globalcors.cors-configurations.[/**].allowed-headers=*
+spring.cloud.gateway.globalcors.cors-configurations.[/**].allow-credentials=true
+
+logging.level.org.springframework.cloud.gateway=DEBUG
